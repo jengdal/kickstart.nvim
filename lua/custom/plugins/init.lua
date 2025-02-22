@@ -1,6 +1,6 @@
 -- You can add your own plugins here or in other files in this directory!
 --  I promise not to create any merge conflicts in this directory :)
---
+
 -- See the kickstart.nvim README for more information
 
 --vim.opt.guicursor = 'n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20'
@@ -13,7 +13,7 @@ vim.g.loaded_netrwPlugin = 1
 
 -- optionally enable 24-bit colour
 vim.opt.termguicolors = true
-
+-- vim.cmd 'colorscheme default-light:'
 return {
   --  {
   --    'catppuccin/nvim',
@@ -30,10 +30,71 @@ return {
   --      -- Load the colorscheme here.
   --      -- Like many other themes, this one has different styles, and you could load
   --      -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-  --      vim.cmd.colorscheme 'catppuccin-latte'
+  --      --vim.cmd.colorscheme 'catppuccin-latte'
   --    end,
-  --  }
+  --  },
+  --  {
+  --    'nyoom-engineering/oxocarbon.nvim',
+  --    config = function()
+  --      --vim.opt.background = 'light' -- set this to dark or light
+  --      --vim.cmd.colorscheme 'oxocarbon'
+  --    end,
+  --    -- Add in any other configuration;
+  --    --   event = foo,
+  --    --   config = bar
+  --    --   end,
+  --  },
+  --  {
+  --    'Mofiqul/vscode.nvim',
+  --    config = function()
+  --      --     vim.o.background = 'light'
   --
+  --      --   local c = require('vscode.colors').get_colors()
+  --      require('vscode').setup {
+  --        -- Alternatively set style in setup
+  --        style = 'light',
+  --        --
+  --        --        -- Enable transparent background
+  --        --        transparent = true,
+  --        --
+  --        --        -- Enable italic comment
+  --        --        italic_comments = true,
+  --        --
+  --        --        -- Underline `@markup.link.*` variants
+  --        --        underline_links = true,
+  --        --
+  --        --        -- Disable nvim-tree background color
+  --        --        disable_nvimtree_bg = true,
+  --        --
+  --        --        -- Override colors (see ./lua/vscode/colors.lua)
+  --        --        color_overrides = {
+  --        --          vscLineNumber = '#FFFFFF',
+  --        --        },
+  --        --
+  --        --        -- Override highlight groups (see ./lua/vscode/theme.lua)
+  --        --        group_overrides = {
+  --        --          -- this supports the same val table as vim.api.nvim_set_hl
+  --        --          -- use colors from this colorscheme by requiring vscode.colors!
+  --        --          Cursor = { fg = c.vscDarkBlue, bg = c.vscLightGreen, bold = true },
+  --        --        },
+  --      }
+  --      -- require('vscode').load()
+  --
+  --      -- load the theme without affecting devicon colors.
+  --      -- vim.cmd.colorscheme 'vscode'
+  --    end,
+  --  },
+  {
+    'nickkadutskyi/jb.nvim',
+    lazy = false,
+    priority = 1000,
+    opts = {},
+    config = function()
+      --require('jb').setup { transparent = false }
+      vim.cmd.colorscheme 'jb'
+      vim.o.background = 'light'
+    end,
+  },
   {
     'nvim-tree/nvim-tree.lua',
     version = '*',
@@ -56,6 +117,11 @@ return {
         filters = {
           dotfiles = true,
         },
+        update_focused_file = {
+          enable = true,
+          update_root = false,
+          ignore_list = {},
+        },
       }
     end,
   },
@@ -66,5 +132,17 @@ return {
     keys = { -- load the plugin only when using it's keybinding:
       { '<leader>u', "<cmd>lua require('undotree').toggle()<cr>" },
     },
+  },
+  {
+    'dawsers/telescope-file-history.nvim',
+    config = function()
+      require('file_history').setup {
+        -- This is the location where it will create your file history repository
+        backup_dir = '~/.file-history-git',
+        -- command line to execute git
+        git_cmd = 'git',
+      }
+      require('telescope').load_extension 'file_history'
+    end,
   },
 }
