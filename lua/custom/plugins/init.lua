@@ -109,7 +109,7 @@ return {
           sorter = 'case_sensitive',
         },
         view = {
-          width = 30,
+          width = 50,
         },
         renderer = {
           group_empty = true,
@@ -123,6 +123,11 @@ return {
           ignore_list = {},
         },
       }
+      local function open_nvim_tree()
+        -- open the tree
+        require('nvim-tree.api').tree.open()
+      end
+      vim.api.nvim_create_autocmd({ 'VimEnter' }, { callback = open_nvim_tree })
     end,
   },
   {
