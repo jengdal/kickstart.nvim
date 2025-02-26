@@ -55,6 +55,12 @@ return {
     local function open_nvim_tree()
       require('nvim-tree.api').tree.toggle(false, true)
     end
-    vim.api.nvim_create_autocmd({ 'VimEnter' }, { callback = open_nvim_tree })
+
+    local path = vim.fn.getcwd()
+
+    if string.find(path, '/john/workspace/') then
+      vim.api.nvim_create_autocmd({ 'VimEnter' }, { callback = open_nvim_tree })
+    end
+    vim.keymap.set('n', '<leader>t', open_nvim_tree, { desc = 'Open File Tree' })
   end,
 }
