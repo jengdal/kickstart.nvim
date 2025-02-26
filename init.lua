@@ -661,6 +661,7 @@ require('lazy').setup({
       local servers = {
         -- clangd = {},
         gopls = {},
+
         pyright = {
           settings = {
             pyright = {
@@ -685,9 +686,10 @@ require('lazy').setup({
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
-        ts_ls = {},
+        --ts_ls = {},
         --
-
+        eslint = {},
+        prettier = {},
         ruff = {
           on_attach = function(client, bufnr)
             -- Disable hover in favor of Pyright
@@ -702,8 +704,16 @@ require('lazy').setup({
           end,
         }, -- linter & formatter (includes flake8, pep8, black, isort, etc.)
         debugpy = {}, -- debugger
-        taplo = {}, -- LSP for toml (e.g., for pyproject.toml files)
-        sqlfluff = {},
+        -- taplo = {}, -- LSP for toml (e.g., for pyproject.toml files)
+        --sqruff = {},
+        --sqlfmt = {},
+        jsonls = {},
+        --marksman = { 'markdown', 'markdown.mdx', 'md' },
+
+        jinja_lsp = {
+          filetypes = { 'jinja', 'jinja.html', 'html' },
+        },
+
         lua_ls = {
           -- cmd = { ... },
           -- filetypes = { ... },
@@ -720,6 +730,21 @@ require('lazy').setup({
         },
       }
 
+      vim.filetype.add {
+        extension = {
+          jinja = 'jinja',
+          jinja2 = 'jinja',
+          j2 = 'jinja',
+        },
+      }
+
+      vim.filetype.add {
+        extension = {
+          jinja = 'html',
+          jinja2 = 'html',
+          j2 = 'html',
+        },
+      }
       -- Ensure the servers and tools above are installed
       --
       -- To check the current status of installed tools and/or manually install
@@ -792,10 +817,19 @@ require('lazy').setup({
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
         --- python = { "isort", "black" }
-        --python = { 'black' },
+        -- python = { 'black' },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
+
         javascript = { 'prettierd', 'prettier', stop_after_first = true },
+        typescript = { 'prettierd', 'prettier', stop_after_first = true },
+        markdown = { 'prettierd', 'prettier', stop_after_first = true },
+        --        sqlfmt = { 'sqlfmt' },
+        sql = {
+          'sqruff',
+          'sqlfmt',
+          'sqlfluff',
+        },
       },
     },
   },
@@ -915,6 +949,12 @@ require('lazy').setup({
           { name = 'nvim_lsp_signature_help' },
         },
       }
+      cmp.setup.filetype({ 'sql' }, {
+        sources = {
+          { name = 'vim-dadbod-completion' },
+          { name = 'buffer' },
+        },
+      })
     end,
   },
 
@@ -989,9 +1029,13 @@ require('lazy').setup({
       ensure_installed = {
         'python',
         'html',
+        'jinja',
+        'jinja_inline',
         'sql',
         'typescript',
         'javascript',
+        'json',
+        'toml',
         'css',
         'scss',
         'swift',
